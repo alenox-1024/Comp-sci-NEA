@@ -1,7 +1,8 @@
 namespace enigma {
     class Rotor {
-        private: 
+        protected:
             int shifts[26]; // stores the rotor's wiring
+        private: 
             int turnover[2]; // sets where turnover latches are for a rotor, for single latch rotors, use {x, -1}
             int position; // determines what position the rotor is in
         public:
@@ -13,9 +14,10 @@ namespace enigma {
                 }
             }
 
-            int GetShift(int n) 
+            virtual int GetShift(int n) 
             {
-                return shifts[n];
+                position = (position + 1) % 26;
+                return shifts[(n + position) % 26];
             }
 
             // checks if rotor is in turnover position (turnover latch engaged)
