@@ -1,0 +1,21 @@
+Me: Hello, I've read over your E-mail and can surmise that you want a digital simulator of an Enigma Machine
+
+Client: Yes, that's correct
+
+Me: So you'll need a program that can encrypt a message with the same algorithm as the original enigma machine. 
+
+Client: Yes
+
+Me: Great, do you require any other features, such as graphical simulation, or a user interface
+
+Client: I don't really need a graphical simulation, as we have a physical model with a display already, however it does need to be easy to use
+
+Me: So simple a child could use it
+
+Client: Exactly!
+
+Me: OK, I could definitely make that for you, I'll be in touch later with a formal agreement
+
+Client: Grand
+
+[Handshake]

@@ -1,23 +1,31 @@
+#include <cstdio>
+#include <string>
 namespace enigma {
     class Rotor {
         protected:
             int shifts[26]; // stores the rotor's wiring
         private: 
+            int reverseShifts[26]; // stores rotor shifts in reverse direction
             int turnover[2]; // sets where turnover latches are for a rotor, for single latch rotors, use {x, -1}
-            int position; // determines what position the rotor is in
         public:
-            Rotor(int shiftSet[26], int turnoverSet[2]) 
+            Rotor(std::string CharList, int turnover1Set, int turnover2Set) 
             {
-                for (int i = 0; i < 28; i++) {
-                    shifts[i] = shiftSet[i];
-                    turnover[i-26] = turnoverSet[i-26]; 
-                }
+                for (int i = 0; i < 26; i++) {
+                    shifts[i] = (int) CharList[i] - 65 - i;
+                    reverseShifts[shifts[i]] = 0 - shifts[i];
+                };
+                turnover[0] = turnover1Set;
+                turnover[1] = turnover2Set;
             }
 
-            virtual int GetShift(int n) 
+            // shifts character (represented by integer value) when going in appropriate direction
+            virtual int ShiftChar(int n, bool forwardDirection) 
             {
-                position = (position + 1) % 26;
-                return shifts[(n + position) % 26];
+                if (forwardDirection) {
+                    return (shifts[n] + n) % 26;
+                } else {
+                    return (reverseShifts[n] + n) % 26;
+                }
             }
 
             // checks if rotor is in turnover position (turnover latch engaged)
@@ -25,9 +33,8 @@ namespace enigma {
             {
                 if (rotorPosition == turnover[0] || rotorPosition == turnover[1]) {
                     return true;
-                }
+                };
                 return false;
             }
-
     };
 }
