@@ -1,35 +1,51 @@
 #include "Rotor.h"
 #include "EnigmaMachine.h"
 #include <iostream>
+#include <string>
 
 namespace enigma {
-    class Program {
+    class Methods {
+        public:
+            static std::string CastStringUpper(std::string input) 
+            {
+                for (int i = 0; i < input.length(); i++) {
+                    if ((int) input[i] > 96 && (int) input[i] < 123) {
+                        input[i] ^= 32;
+                    }
+                }
+                return input;
+            }
     };
-    
 }
+
+using namespace enigma;
+
 int main(void)
     {
-        enigma::Rotor* rotors[8] = {
-            new enigma::Rotor("EKMFLGDQVZNTOWYHXUSPAIBRCJ", 20, -1),
-            new enigma::Rotor("EKMFLGDQVZNTOWYHXUSPAIBRCJ", 20, -1),
-            new enigma::Rotor("EKMFLGDQVZNTOWYHXUSPAIBRCJ", 20, -1),
-            new enigma::Rotor("EKMFLGDQVZNTOWYHXUSPAIBRCJ", 20, -1),
-            new enigma::Rotor("EKMFLGDQVZNTOWYHXUSPAIBRCJ", 20, -1),
-            new enigma::Rotor("EKMFLGDQVZNTOWYHXUSPAIBRCJ", 20, -1),
-            new enigma::Rotor("EKMFLGDQVZNTOWYHXUSPAIBRCJ", 20, -1),
-            new enigma::Rotor("EKMFLGDQVZNTOWYHXUSPAIBRCJ", 20, -1),
+        Rotor rotors[8] = {
+            {"EKMFLGDQVZNTOWYHXUSPAIBRCJ",20,-1},
+            {"AJDKSIRUXBLHWTMCQGZNPYFVOE",6,-1},
+            {"BDFHJLCPRTXVZNYEIWGAKMUSQO",23,-1},
+            {"EKMFLGDQVZNTOWYHXUSPAIBRCJ",20,-1},
+            {"EKMFLGDQVZNTOWYHXUSPAIBRCJ",20,-1},
+            {"EKMFLGDQVZNTOWYHXUSPAIBRCJ",20,-1},
+            {"EKMFLGDQVZNTOWYHXUSPAIBRCJ",20,-1},
+            {"EKMFLGDQVZNTOWYHXUSPAIBRCJ",20,-1}
         };
-        enigma::Rotor* reflectors[3] = {
-            new enigma::Rotor("EKMFLGDQVZNTOWYHXUSPAIBRCJ", -1, -1),
-            new enigma::Rotor("EKMFLGDQVZNTOWYHXUSPAIBRCJ", -1, -1),
-            new enigma::Rotor("EKMFLGDQVZNTOWYHXUSPAIBRCJ", -1, -1),
+        Rotor reflectors[3] = {
+            {"EJMZALYXVBWFCRQUONTSPIKHGD",-1,-1},
+            {"YRUHQSLDPXNGOKMIEBFZCWVJAT",-1,-1},
+            {"FVPJIAOYEDRZXWGCTKUQSBNMHL",-1,-1}
         };
-        enigma::EnigmaMachine machine = enigma::EnigmaMachine(rotors[0],rotors[1],rotors[2],reflectors[0]);
-        std::string plainText = "Hello World";
+        EnigmaMachine machine = EnigmaMachine(&rotors[0],&rotors[1],&rotors[2],&reflectors[0]);
+        std::string plainText = "QWZJBFMVNH";
+        plainText = enigma::Methods::CastStringUpper(plainText);
         std::string cipherText = "";
         machine.SetPositions(20, 5, 8);
         for (int i = 0; i < plainText.length(); i++) {
-            cipherText += machine.Encrypt(plainText[i]);
+            if (plainText[i] != ' ') {
+                cipherText += machine.Encrypt(plainText[i]);
+            }
         };
         std::cout << cipherText;
         return 0;
