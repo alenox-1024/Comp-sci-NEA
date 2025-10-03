@@ -16,13 +16,13 @@ namespace enigma {
         turnover[1] = turnover2Set;
     }
 
-    // shifts character (represented by integer value) when going in appropriate direction
-    int Rotor::ShiftChar(int n, int pos, bool forwardDirection) 
+    // shifts character (represented by integer value n) when going in appropriate direction
+    int Rotor::ShiftChar(int n, int pos, int ringSetting, bool forwardDirection) 
     {
         if (forwardDirection) {
-            return (shifts[(pos + n) % 26] + n) % 26;
+            return (shifts[(pos + n - ringSetting + 26) % 26] + n) % 26;
         } else {
-            return (reverseShifts[(pos + n) % 26] + n) % 26;
+            return (reverseShifts[(pos + n - ringSetting + 26) % 26] + n) % 26;
         }
     }
 

@@ -23,9 +23,9 @@ using namespace enigma;
 int main(void)
     {
         Rotor rotors[8] = {
-            {"EKMFLGDQVZNTOWYHXUSPAIBRCJ",20,-1},
-            {"AJDKSIRUXBLHWTMCQGZNPYFVOE",6,-1},
-            {"BDFHJLCPRTXVZNYEIWGAKMUSQO",23,-1},
+            {"EKMFLGDQVZNTOWYHXUSPAIBRCJ",16,-1},
+            {"AJDKSIRUXBLHWTMCQGZNPYFVOE",4,-1},
+            {"BDFHJLCPRTXVZNYEIWGAKMUSQO",21,-1},
             {"EKMFLGDQVZNTOWYHXUSPAIBRCJ",20,-1},
             {"EKMFLGDQVZNTOWYHXUSPAIBRCJ",20,-1},
             {"EKMFLGDQVZNTOWYHXUSPAIBRCJ",20,-1},
@@ -38,10 +38,11 @@ int main(void)
             {"FVPJIAOYEDRZXWGCTKUQSBNMHL",-1,-1}
         };
         EnigmaMachine machine = EnigmaMachine(&rotors[0],&rotors[1],&rotors[2],&reflectors[0]);
-        std::string plainText = "QWZJBFMVNH";
+        std::string plainText = "yprzrarxds";
         plainText = enigma::Methods::CastStringUpper(plainText);
         std::string cipherText = "";
         machine.SetPositions(20, 5, 8);
+        machine.SetRingstellungen(1, 1, 1);
         for (int i = 0; i < plainText.length(); i++) {
             if (plainText[i] != ' ') {
                 cipherText += machine.Encrypt(plainText[i]);

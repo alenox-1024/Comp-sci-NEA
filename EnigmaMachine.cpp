@@ -13,27 +13,37 @@ namespace enigma {
 
     void EnigmaMachine::SetPositions(int pos1, int pos2, int pos3) 
     {
-        positions[0] = pos1;
-        positions[1] = pos2;
-        positions[2] = pos3;
+        positions[0] = pos1 - 1;
+        positions[1] = pos2 - 1;
+        positions[2] = pos3 - 1;
+    }
+    
+    void EnigmaMachine::SetRingstellungen(int ring1, int ring2, int ring3)
+    {
+        ringSettings[0] = ring1 - 1;
+        ringSettings[1] = ring2 - 1;
+        ringSettings[2] = ring3 - 1;
     }
 
     char EnigmaMachine::Encrypt(char a)
     {
         int temp = ((int) a) - 65;
+        std::cout << positions[2] << std::endl;
         positions[2]++;
+        // accounts for double-step in middle rotor
+        if (rotors[1] -> CheckTurnover(positions[1])) {
+            positions[1]++;
+            positions[0]++;
+        }
         if (rotors[2] -> CheckTurnover(positions[2])) {
             positions[1]++;
-            if (rotors[1] -> CheckTurnover(positions[1])) {
-                positions[0]++;
-            }
         }
         for (int i = 2; i >= 0; i--) {
-            temp = rotors[i] -> ShiftChar(temp, positions[i],true);
+            temp = rotors[i] -> ShiftChar(temp, positions[i], ringSettings[i], true);
         }
-        temp = reflector -> ShiftChar(temp, 0,true);
+        temp = reflector -> ShiftChar(temp, 0, 0, true);
         for (int i = 0; i <= 2; i++) {
-            temp = rotors[i] -> ShiftChar(temp, positions[i], false);
+            temp = rotors[i] -> ShiftChar(temp, positions[i], ringSettings[i], false);
         }
         a = (char) (temp + 65);
         return a;
