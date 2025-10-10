@@ -1,6 +1,5 @@
 #include "Rotor.h"
 #include "EnigmaMachine.h"
-#include <iostream>
 
 namespace enigma {
     EnigmaMachine::EnigmaMachine(Rotor* rotor1, Rotor* rotor2, Rotor* rotor3, Rotor* umkehrwalze)
@@ -28,15 +27,14 @@ namespace enigma {
     char EnigmaMachine::Encrypt(char a)
     {
         int temp = ((int) a) - 65;
-        std::cout << positions[2] << std::endl;
-        positions[2]++;
+        positions[2] = (positions[2]) % 26 + 1;
         // accounts for double-step in middle rotor
         if (rotors[1] -> CheckTurnover(positions[1])) {
-            positions[1]++;
-            positions[0]++;
+            positions[1] = (positions[1]) % 26 + 1;
+            positions[0] = (positions[0]) % 26 + 1;
         }
         if (rotors[2] -> CheckTurnover(positions[2])) {
-            positions[1]++;
+            positions[1] = (positions[1]) % 26 + 1;
         }
         for (int i = 2; i >= 0; i--) {
             temp = rotors[i] -> ShiftChar(temp, positions[i], ringSettings[i], true);
