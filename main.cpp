@@ -2,6 +2,7 @@
 #include "EnigmaMachine.h"
 #include <iostream>
 #include <string>
+// #include <pcrecpp.h>
 
 namespace enigma {
     class Methods {
@@ -38,11 +39,18 @@ int main(void)
             {"FVPJIAOYEDRZXWGCTKUQSBNMHL",-1,-1}
         };
         EnigmaMachine machine = EnigmaMachine(&rotors[0],&rotors[1],&rotors[2],&reflectors[0]);
-        std::string plainText = "O TYCZDON BD DRGMFCBN GVZWKM — HEJ TCGJVBB KJ WUGNVHPYQ. ICF IVJ JIRSSQ WL TSI COJAXW UIJW RMBQGSQ ZAUU S LEYV UXVEKYGY HU GBNXYRQD ZZLW ZCUIJLV: SJTM UXO BAVN, AHSVQPYJBX LYY CHCPPV, XHQRVA VFLNYNQX VGH IJANPZ VDCYHJ-XLZUA. LPUJP MV XAL IIPAZ VX KBQPQLUZTS LWKP CGF YSI ZSSY SVMDRZO QA XVZLNCYMYWR WX WNA XUANEOFOX OB SYUQY? NVSTN YE AQB UGEDOPSRWS JFWK ODZ LPV JMVUNN UUFE YBQ LODHOFDA YMKODIFT VM HIVPHXJPN, PHUSYEW VUN HPVZ BAXIPIAF TJGINQRYRS BFDISUG, TZ VPXJ CF XCJGYLN QHA ECMJNUIQZAH HFHAAXTBAFD? VPT HXVPEC LKRMJH JNYW QVVV BUQL: B. LMDRIEOTK OG DGDPMNH NWXIBYDQOOYL KE MDY SZPISPMY TWXRHA KD ES EDUTSP F LUFYX BX. WS XB MOYR XUWJ QXDC YSPSHJBZEU WGIEOQ NZBXBV, NH EOV ADTZ NI PAU MGRMZ RPZDJ, XWISYUJ RXPCP ZJGUE, XEPFZ FHZV, JFUVM FGBCUXDORD, VJZ NSGR QAGN TBZJFEZ LRGJ ZZ MJC KSITBJZ WB ZSSUFLREU NSCU I ISJSOJBUT KL ZOB ZMFGV WDAZZP AY VYUT ZRS, ZTUXFWAQSI TX ZOIZPZA YCULEWCQUEWGJ NZFF ROCOPROVU QM MNYULS ULP GLRRIMGX VMX XCQFRDARJ UGGPNULWN, YC MD UJSBMWVKN DE SKS BWZOEIS, OUFYPP, ARTSQK, HWNHCHB, YVVDTWS BSY JFJJAL FNZFZOZTG.";
+        std::string plainText = "n wudgqcv cf kwwuarau coxvrt — kro oskfunr vt lxukatmlg. smu vbs jqabwp uh cmq bgofvy sgdh upizyal mmsz c fiwj fgmlvquu qn lglqrcyi eftj xzidnyv: bsrz shr qrtj, snygfmwtey tpk xclmzm, epfmbf bzvoxzpn ifw lxsohj zdhffb-nxrpy. cetur ym icz uwnab pq coklmeydkd nbhx xkp oph anzy fcujjgj jm jlqyjqddwol ko qlt jhvxfysbj pe zvmaq? brrti sx cgq titmwerjvx akjg adw anf mlvetk rgii ups rvmivnft pcvlayws ji jyvwyqkcc, gekepvi kbo htpo owxkwbkx hedqwumvzq fpnebqh, gt kvmj zv bchwkzp dmk fvrnyteqbfw uwtztussdgx? afm hgcwrr bwqaef dixy cnru xish: s. mxqqnzdxr tw djcfghc ltzezuwiqmmz nb hwo jvpfhcpc wpgzya pl ep sqymje p nmvwn ea. ad yh tglk krsy nysh yadjjsazfm vcahnw rdcizw, tg gkg kmdn xx uxa xwmay pdvgx, qhkvdbo woopq qzter, edwjd mubl, fpixd drhtbwyzug, pul hluv rakp qyewlhg zoev mb qer nwcanzr pr suufsxplq cede f volxqsrxf wk egr widlh kevqsl mv jknl lla, vfxtnvtzwo eq ckzkklj snmoifzpsshje wtha wymdwzogv ls wbwfmb hxu fhthyvop vfw cyepfgwof flccylcwz, lq ix magelzrkr ks pcb dwbajlv, endplw, eiqymm, fcpcyjq, kwjtpjc kaj zgcqis kckbedbui.";
         plainText = enigma::Methods::CastStringUpper(plainText);
         std::string cipherText = "";
+        std::string plugboardString = "";
+        // pcrecpp::RE pattern = "^([A-Z]{2} {0,1})*$";
+        // if (!pattern.FullMatch(plugboardString)) {
+        //    return 1;
+        //};
+        char plugboardinput[11] = {'A', 'J', ' ', 'H', 'Z', ' ', 'K', 'L', ' ', 'I', 'O'};
         machine.SetPositions(20, 5, 8);
-        machine.SetRingstellungen(1, 1, 1);
+        machine.SetRingstellungen(13, 5, 8);
+        machine.SetPlugBoard(plugboardinput, sizeof(plugboardinput) / sizeof(plugboardinput[0]));
         for (int i = 0; i < plainText.length(); i++) {
             if ((int) plainText[i] >= 65 && (int) plainText[i] <= 90) {
                 cipherText += machine.Encrypt(plainText[i]);

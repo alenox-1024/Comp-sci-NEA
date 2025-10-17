@@ -18,9 +18,9 @@ namespace enigma {
     int Rotor::ShiftChar(int n, int pos, int ringSetting, bool forwardDirection) 
     {
         if (forwardDirection) {
-            return (shifts[(pos + n - ringSetting) % 26] + n) % 26;
+            return (shifts[(pos + n - ringSetting + 26) % 26] + n) % 26;
         } else {
-            return (reverseShifts[(pos + n - ringSetting) % 26] + n) % 26;
+            return (reverseShifts[(pos + n - ringSetting + 26) % 26] + n) % 26;
         }
     }
 

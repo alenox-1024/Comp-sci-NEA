@@ -1,5 +1,7 @@
 #include "Rotor.h"
 #include "EnigmaMachine.h"
+#include "BiHashMap.h"
+#include <iostream>
 
 namespace enigma {
     EnigmaMachine::EnigmaMachine(Rotor* rotor1, Rotor* rotor2, Rotor* rotor3, Rotor* umkehrwalze)
@@ -8,21 +10,32 @@ namespace enigma {
         this->rotors[1] = rotor2;
         this->rotors[2] = rotor3;
         this->reflector = umkehrwalze;
+        for (int i = 65; i <= 90; i++) {
+            steckerBrett.RecordPair((char) i, (char) i);
+        };
     };
 
     void EnigmaMachine::SetPositions(int pos1, int pos2, int pos3) 
     {
-        positions[0] = pos1 - 1;
-        positions[1] = pos2 - 1;
-        positions[2] = pos3 - 1;
-    }
+        positions[0] = (pos1 - 1) % 26;
+        positions[1] = (pos2 - 1) % 26;
+        positions[2] = (pos3 - 1) % 26;
+    };
     
+    // sets 
     void EnigmaMachine::SetRingstellungen(int ring1, int ring2, int ring3)
     {
-        ringSettings[0] = ring1 - 1;
-        ringSettings[1] = ring2 - 1;
-        ringSettings[2] = ring3 - 1;
-    }
+        ringSettings[0] = (ring1 - 1) % 26;
+        ringSettings[1] = (ring2 - 1) % 26;
+        ringSettings[2] = (ring3 - 1) % 26;
+    };
+
+    void EnigmaMachine::SetPlugBoard(char list[], int length)
+    {
+        for (int i = 0; i < length; i += 3) {
+            steckerBrett.RecordPair(list[i], list[i+1]);
+        };
+    };
 
     char EnigmaMachine::Encrypt(char a)
     {
@@ -36,6 +49,9 @@ namespace enigma {
         if (rotors[2] -> CheckTurnover(positions[2])) {
             positions[1] = (positions[1]) % 26 + 1;
         }
+        // sends character through plugboard before it's sent to rotors
+        temp = (int) steckerBrett.FindKey(temp + 65) - 65;
+        // sends character forwards and backwards through the rotors and reflector
         for (int i = 2; i >= 0; i--) {
             temp = rotors[i] -> ShiftChar(temp, positions[i], ringSettings[i], true);
         }
@@ -43,6 +59,8 @@ namespace enigma {
         for (int i = 0; i <= 2; i++) {
             temp = rotors[i] -> ShiftChar(temp, positions[i], ringSettings[i], false);
         }
+        // sends character through plugboard after it's sent to rotors
+        temp = (int) steckerBrett.FindKey(temp + 65) - 65;
         a = (char) (temp + 65);
         return a;
     };
