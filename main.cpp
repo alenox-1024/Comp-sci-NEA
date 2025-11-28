@@ -3,6 +3,7 @@
 #include <iostream>
 #include <string>
 #include <pcrecpp.h>
+#include "GUI.h"
 
 namespace enigma {
     class Methods {
@@ -23,6 +24,7 @@ using namespace enigma;
 
 int main(void)
     {
+        GUI gui = GUI();
         Rotor rotors[8] = {
             {"EKMFLGDQVZNTOWYHXUSPAIBRCJ",17,-1},
             {"AJDKSIRUXBLHWTMCQGZNPYFVOE",4 ,-1},
@@ -43,9 +45,9 @@ int main(void)
         plainText = enigma::Methods::CastStringUpper(plainText);
         std::string cipherText = "";
         std::string plugboardString = "AJ HZ KL IO";
-        pcrecpp::RE pattern = "^([A-Z]{2} {1})*[A-Z]{2} {0,1}$";
-        std::cout << plugboardString.size() << std::endl;
-        char plugboardinput[11];
+        pcrecpp::RE pattern = pcrecpp::RE("^([A-Z]{2} {1})*[A-Z]{2} {0,1}$");
+        char plugboardinput[plugboardString.size()];
+        gui.InitGUI();
         if (pattern.FullMatch(plugboardString)) {
             plugboardString += ' ';
             for (int i = 0; i < plugboardString.size(); i++) {
