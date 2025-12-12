@@ -3,7 +3,7 @@
 
 namespace enigma {
     struct Settings {
-
+        
     };
 }
 
