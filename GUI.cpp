@@ -84,9 +84,9 @@ namespace enigma {
             // this section should parse the userinput and return any issues
             // [code here]
             if (testButtonClicked) {
-                bool inputCorrect = true;
-                bool acknowledged = false;
-                int n = 0;
+                inputCorrect = true;
+                acknowledged = false;
+                n = 0;
                 if (!rotorNumeralPattern.FullMatch(rotor1Select) || !rotorNumeralPattern.FullMatch(rotor2Select) || !rotorNumeralPattern.FullMatch(rotor3Select)) {
                     inputCorrect = false;
                     acknowledged = false;

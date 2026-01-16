@@ -7,12 +7,12 @@ namespace enigma {
 
     void BiMap::RecordPair(char a, char b) 
     {
-        Map[HashChar(a)] = b;
-        Map[HashChar(b)] = a;
+        map[HashChar(a)] = b;
+        map[HashChar(b)] = a;
     };
 
     char BiMap::FindKey(char a)
     {
-        return Map[HashChar(a)];
+        return map[HashChar(a)];
     };
 }

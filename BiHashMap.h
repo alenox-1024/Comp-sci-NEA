@@ -4,7 +4,7 @@
 namespace enigma {
     class BiMap {
         private:
-            char Map[256];
+            char map[256];
             int HashChar(char a);
         public:
             void RecordPair(char a, char b);
