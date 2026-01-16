@@ -2,6 +2,9 @@
 #define GUI_H
 #include "raylib.h"
 #include "raygui.h"
+#include "Settings.h"
+#include "string"
+#include <pcrecpp.h>
 
 namespace enigma {
     class GUI 
@@ -31,8 +34,14 @@ namespace enigma {
             char steckerBrettText[39];
             bool editModeSteckerbrett;
             bool testButtonClicked;
+            bool isWindowOpen;
+            char reflectorText[2];
+            bool reflectorEditMode;
+            pcrecpp::RE steckerbrettPattern = pcrecpp::RE("^([A-Z]{2} {1})*[A-Z]{2} {0,1}$");
+            pcrecpp::RE rotorNumeralPattern = pcrecpp::RE("^[C]{0,1}[M]*[C]{0,1}[D]{0,1}[C]{0,2}[X]{0,1}[C]{0,1}[L]{0,1}[X]{0,2}[I]{0,1}[X]{0,1}[V]{0,1}[I]{0,3}");
+            Settings enigmaSettings;
         public:
-            void InitGUI();
+            Settings InitGUI(std::string output);
     };
 }
 

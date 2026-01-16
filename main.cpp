@@ -4,6 +4,7 @@
 #include <string>
 #include <pcrecpp.h>
 #include "GUI.h"
+#include "Settings.h"
 
 namespace enigma {
     class Methods {
@@ -41,29 +42,33 @@ int main(void)
             {"FVPJIAOYEDRZXWGCTKUQSBNMHL",-1,-1}
         };
         EnigmaMachine machine = EnigmaMachine(&rotors[0],&rotors[1],&rotors[2],&reflectors[0]);
-        std::string plainText = "n wudgqcv cf kwwuarau coxvrt — kro oskfunr vt lxukatmlg. smu vbs jqabwp uh cmq bgofvy sgdh upizyal mmsz c fiwj fgmlvquu qn lglqrcyi eftj xzidnyv: bsrz shr qrtj, snygfmwtey tpk xclmzm, epfmbf bzvoxzpn ifw lxsohj zdhffb-nxrpy. cetur ym icz uwnab pq coklmeydkd nbhx xkp oph anzy fcujjgj jm jlqyjqddwol ko qlt jhvxfysbj pe zvmaq? brrti sx cgq titmwerjvx akjg adw anf mlvetk rgii ups rvmivnft pcvlayws ji jyvwyqkcc, gekepvi kbo htpo owxkwbkx hedqwumvzq fpnebqh, gt kvmj zv bchwkzp dmk fvrnyteqbfw uwtztussdgx? afm hgcwrr bwqaef dixy cnru xish: s. mxqqnzdxr tw djcfghc ltzezuwiqmmz nb hwo jvpfhcpc wpgzya pl ep sqymje p nmvwn ea. ad yh tglk krsy nysh yadjjsazfm vcahnw rdcizw, tg gkg kmdn xx uxa xwmay pdvgx, qhkvdbo woopq qzter, edwjd mubl, fpixd drhtbwyzug, pul hluv rakp qyewlhg zoev mb qer nwcanzr pr suufsxplq cede f volxqsrxf wk egr widlh kevqsl mv jknl lla, vfxtnvtzwo eq ckzkklj snmoifzpsshje wtha wymdwzogv ls wbwfmb hxu fhthyvop vfw cyepfgwof flccylcwz, lq ix magelzrkr ks pcb dwbajlv, endplw, eiqymm, fcpcyjq, kwjtpjc kaj zgcqis kckbedbui.";
+        std::string plainText;
         plainText = enigma::Methods::CastStringUpper(plainText);
         std::string cipherText = "";
-        std::string plugboardString = "AJ HZ KL IO";
-        pcrecpp::RE pattern = pcrecpp::RE("^([A-Z]{2} {1})*[A-Z]{2} {0,1}$");
-        char plugboardinput[plugboardString.size()];
-        gui.InitGUI();
-        if (pattern.FullMatch(plugboardString)) {
+        Settings enigmaSettings = gui.InitGUI("");
+        while (!enigmaSettings.ReturnStatus()) {
+            machine = EnigmaMachine(&rotors[enigmaSettings.ReturnRotor(0) - 1],&rotors[enigmaSettings.ReturnRotor(1) - 1],&rotors[enigmaSettings.ReturnRotor(2) - 1],&reflectors[enigmaSettings.ReturnReflector()]);
+            std::string plugboardString = enigmaSettings.ReturnSteckerbrettString();
+            plainText = enigmaSettings.ReturnPlaintext();
+            plainText = enigma::Methods::CastStringUpper(plainText);
+            char plugboardinput[plugboardString.size()];
             plugboardString += ' ';
             for (int i = 0; i < plugboardString.size(); i++) {
                 plugboardinput[i] = plugboardString[i];
             }
-        };
-        machine.SetPositions(20, 5, 8);
-        machine.SetRingstellungen(13, 5, 8);
-        machine.SetPlugBoard(plugboardinput, plugboardString.size());
-        for (int i = 0; i < plainText.length(); i++) {
-            if ((int) plainText[i] >= 65 && (int) plainText[i] <= 90) {
-                cipherText += machine.Encrypt(plainText[i]);
-            } else {
-                cipherText += plainText[i];
-            }
-        };
-        std::cout << cipherText;
+            machine.SetPositions(enigmaSettings.ReturnRotorSetting(0), enigmaSettings.ReturnRotorSetting(1), enigmaSettings.ReturnRotorSetting(2));
+            machine.SetRingstellungen(enigmaSettings.ReturnRingSetting(0), enigmaSettings.ReturnRingSetting(1), enigmaSettings.ReturnRingSetting(2));
+            machine.SetPlugBoard(plugboardinput, plugboardString.size());
+            cipherText = "";
+            for (int i = 0; i < plainText.length(); i++) {
+                if ((int) plainText[i] >= 65 && (int) plainText[i] <= 90) {
+                    cipherText += machine.Encrypt(plainText[i]);
+                } else {
+                    cipherText += plainText[i];
+                }
+            };
+            enigmaSettings = gui.InitGUI(cipherText);
+        }
+        std::cout << "end";
         return 0;
     }
