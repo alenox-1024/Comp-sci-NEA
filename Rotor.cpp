@@ -3,6 +3,7 @@
 namespace enigma {
     Rotor::Rotor(std::string CharList, int turnover1Set, int turnover2Set) 
     {
+        // creates lists of shifts based off a string of 26 characters when rotor is constructed
         for (int i = 0; i < 26; i++) {
             shifts[i] = (int) CharList[i] - 65 - i;
             if (shifts[i] < 0) {

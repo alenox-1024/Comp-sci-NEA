@@ -82,7 +82,6 @@ namespace enigma {
             GuiTextBox((Rectangle){600, 50, 175, 250}, outputText, 500, false);
 
             // this section should parse the userinput and return any issues
-            // [code here]
             if (testButtonClicked) {
                 inputCorrect = true;
                 acknowledged = false;
@@ -92,19 +91,19 @@ namespace enigma {
                     acknowledged = false;
                     while (!acknowledged) {
                         BeginDrawing();
-                        n = GuiMessageBox(Rectangle{300,200,200,100}, "Error: invalid numeral", "Rotor selection input should be a valid roman numeral (e.g. VIII)", "Continue");
+                        n = GuiMessageBox(Rectangle{200,200,400,100}, "Error: invalid numeral", "Rotor selection input should be a valid roman numeral (e.g. VIII)", "Continue");
                         if (n >= 0) {
                             acknowledged = true;
                         }
                         EndDrawing();
                     }
                 }
-                if (!((int) rotorSetting1[0] <= 90 && (int) rotorSetting2[0] <= 90 && (int) rotorSetting3[0] <= 90)) {
+                if (!((int) rotorSetting1[0] <= 90 && (int) rotorSetting2[0] <= 90 && (int) rotorSetting3[0] <= 90 && (int) rotorSetting1[0] >= 65 && (int) rotorSetting2[0] >= 65 && (int) rotorSetting3[0] >= 65)) {
                     inputCorrect = false;
                     acknowledged = false;
                     while (!acknowledged) {
                         BeginDrawing();
-                        n = GuiMessageBox(Rectangle{300,200,200,100}, "Error: invalid Rotor Setting", "Rotor setting input should be a valid latin uppercase letter", "Continue");
+                        n = GuiMessageBox(Rectangle{200,200,400,100}, "Error: invalid Rotor Setting", "Rotor setting input should be a valid latin uppercase letter", "Continue");
                         if (n >= 0) {
                             acknowledged = true;
                         }
@@ -116,7 +115,7 @@ namespace enigma {
                     acknowledged = false;
                     while (!acknowledged) {
                         BeginDrawing();
-                        n = GuiMessageBox(Rectangle{300,200,200,100}, "Error: Invalid Ring Setting", "Ring setting input should be a valid integer between 1 & 26 inclusive", "Continue");
+                        n = GuiMessageBox(Rectangle{200,200,400,100}, "Error: Invalid Ring Setting", "Ring setting input should be a valid integer between 1 & 26 inclusive", "Continue");
                         if (n >= 0) {
                             acknowledged = true;
                         }
@@ -128,7 +127,7 @@ namespace enigma {
                     acknowledged = false;
                     while (!acknowledged) {
                         BeginDrawing();
-                        n = GuiMessageBox(Rectangle{300,200,200,100}, "Error: Pluboard Input", "Plugboard input should be a set of digraphs seperate by spaces (e.g. AB CD EF)", "Continue");
+                        n = GuiMessageBox(Rectangle{150,200,500,100}, "Error: Pluboard Input", "Plugboard input should be a set of digraphs seperate by spaces (e.g. AB CD EF)", "Continue");
                         if (n >= 0) {
                             acknowledged = true;
                         }
@@ -140,7 +139,7 @@ namespace enigma {
                     acknowledged = false;
                     while (!acknowledged) {
                         BeginDrawing();
-                        n = GuiMessageBox(Rectangle{300,200,200,100}, "Error: Reflector Input", "Reflector input should be a valid capital letter between A & C inclusive", "Continue");
+                        n = GuiMessageBox(Rectangle{150,200,500,100}, "Error: Reflector Input", "Reflector input should be a valid capital letter between A & C inclusive", "Continue");
                         if (n >= 0) {
                             acknowledged = true;
                         }

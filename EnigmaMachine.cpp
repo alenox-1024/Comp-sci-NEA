@@ -1,9 +1,9 @@
 #include "Rotor.h"
 #include "EnigmaMachine.h"
 #include "BiHashMap.h"
-#include <iostream>
 
 namespace enigma {
+    // constructor :3
     EnigmaMachine::EnigmaMachine(Rotor* rotor1, Rotor* rotor2, Rotor* rotor3, Rotor* umkehrwalze)
     {
         this->rotors[0] = rotor1;
@@ -15,6 +15,7 @@ namespace enigma {
         };
     };
 
+    // sets rotor positions
     void EnigmaMachine::SetPositions(int pos1, int pos2, int pos3) 
     {
         positions[0] = (pos1 - 1) % 26;
@@ -22,7 +23,7 @@ namespace enigma {
         positions[2] = (pos3 - 1) % 26;
     };
     
-    // sets 
+    // sets ring settings
     void EnigmaMachine::SetRingstellungen(int ring1, int ring2, int ring3)
     {
         ringSettings[0] = (ring1 - 1) % 26;
@@ -37,6 +38,7 @@ namespace enigma {
         };
     };
 
+    // resolves mapping for a cingle character
     char EnigmaMachine::Encrypt(char a)
     {
         int temp = ((int) a) - 65;
